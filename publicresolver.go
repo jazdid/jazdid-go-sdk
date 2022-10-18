@@ -269,6 +269,15 @@ func (r *PublicResolver) Name(addr common.Address) (domain, name string, err err
 	if len(sn) < 1 {
 		return "", "", errors.New("invalid domain name")
 	}
+
+	a, err := r.Address(sn[0])
+	if err != nil {
+		return "", "", err
+	}
+	if addr != a {
+		return "", "", nil
+	}
+
 	tld, err := r.Registrar.Tld(nil)
 	if err != nil {
 		return "", "", err
